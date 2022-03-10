@@ -1,5 +1,7 @@
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 /**
@@ -12,37 +14,41 @@ public class AddTwoNumbers {
 
     public static void main(String[] args) {
         ListNode node1 = initNode(1,2,3,6,4);
-        ListNode node2 = initNode(2,2,3,6,4);
-        StringBuffer buffer1 = new StringBuffer();
-        StringBuffer buffer2 = new StringBuffer();
-        String digital1 = toStringBuffer(node1, buffer1);
-        String digital2 = toStringBuffer(node2, buffer2);
-        Long result = Long.parseLong(digital1) + Long.parseLong(digital2);
-        String resultStr = new StringBuffer(String.valueOf(result)).reverse().toString();
-        ListNode resultNode = initNode(Arrays.stream(resultStr.split("")).map(Integer::valueOf).toArray(Integer[]::new));
-        print(resultNode);
+        ListNode node2 = initNode(2,2,3,6,5);
+        addTwoNumber(node1, node2);
+    }
+
+    public static void  addTwoNumber(ListNode node1, ListNode node2) {
+        ListNode node = new ListNode();
+        ListNode nodeNext = node;
+        int carry = 0;
+        while (node1 != null || node2 != null || carry != 0) {
+            int one = node1 != null ? node1.val : 0;
+            int two = node2 != null ? node2.val : 0;
+            int sum = one + two + carry;
+            ListNode sumNode = new ListNode();
+            sumNode.val = sum % 10;
+            carry = sum / 10;
+            nodeNext.next = sumNode;
+            nodeNext = nodeNext.next;
+            node1 = node1 != null ? node1.next : null;
+            node2 = node2 != null ? node2.next : null;
+        }
+        print(node.next);
     }
 
     public static void print(ListNode node) {
         do {
-            System.out.println(node.value);
+            System.out.println(node.val);
             node = node.next;
         } while ( node != null);
-    }
-
-    public static String toStringBuffer(ListNode node, StringBuffer buffer) {
-        do {
-            buffer.append(node.value);
-            node = node.next;
-        } while ( node != null);
-        return buffer.reverse().toString();
     }
 
     public static ListNode initNode(Integer ...integers) {
         ListNode oneNone = new ListNode();
         ListNode intialNode = oneNone;
         for (int i = 0; i < integers.length; i++) {
-            oneNone.value = integers[i];
+            oneNone.val = integers[i];
             if (i == integers.length -1) {
                 continue;
             }
@@ -59,7 +65,7 @@ public class AddTwoNumbers {
     @Data
     static class ListNode {
 
-        int value;
+        int val;
 
         ListNode next;
 
