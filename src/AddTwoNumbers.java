@@ -42,18 +42,26 @@ public class AddTwoNumbers {
     }
 
     public static ListNode initNode(Integer ...integers) {
-        ListNode oneNone = new ListNode();
-        ListNode intialNode = oneNone;
-        for (int i = 0; i < integers.length; i++) {
-            oneNone.val = integers[i];
-            if (i == integers.length -1) {
-                continue;
-            }
-            ListNode nextNode = new ListNode();
-            oneNone.next = nextNode;
-            oneNone = nextNode;
+        ListNode headerNode = new ListNode();
+        ListNode cur = headerNode;
+        for (Integer integer : integers) {
+            cur.next = new ListNode();
+            cur.next.val = integer;
+            cur = cur.next;
         }
-        return intialNode;
+        return headerNode.next;
+//        ListNode oneNone = new ListNode();
+//        ListNode intialNode = oneNone;
+//        for (int i = 0; i < integers.length; i++) {
+//            oneNone.val = integers[i];
+//            if (i == integers.length -1) {
+//                continue;
+//            }
+//            ListNode nextNode = new ListNode();
+//            oneNone.next = nextNode;
+//            oneNone = nextNode;
+//        }
+//        return intialNode;
     }
 
     /**
