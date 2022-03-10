@@ -1,3 +1,6 @@
+import lombok.Data;
+
+import java.util.Arrays;
 
 /**
  *  link: https://leetcode.com/problems/add-two-numbers/
@@ -10,15 +13,29 @@ public class AddTwoNumbers {
     public static void main(String[] args) {
         ListNode node1 = initNode(1,2,3,6,4);
         ListNode node2 = initNode(2,2,3,6,4);
-
-        printNode(node2);
+        StringBuffer buffer1 = new StringBuffer();
+        StringBuffer buffer2 = new StringBuffer();
+        String digital1 = toStringBuffer(node1, buffer1);
+        String digital2 = toStringBuffer(node2, buffer2);
+        Long result = Long.parseLong(digital1) + Long.parseLong(digital2);
+        String resultStr = new StringBuffer(String.valueOf(result)).reverse().toString();
+        ListNode resultNode = initNode(Arrays.stream(resultStr.split("")).map(Integer::valueOf).toArray(Integer[]::new));
+        print(resultNode);
     }
 
-    public static void printNode(ListNode node) {
+    public static void print(ListNode node) {
         do {
             System.out.println(node.value);
             node = node.next;
         } while ( node != null);
+    }
+
+    public static String toStringBuffer(ListNode node, StringBuffer buffer) {
+        do {
+            buffer.append(node.value);
+            node = node.next;
+        } while ( node != null);
+        return buffer.reverse().toString();
     }
 
     public static ListNode initNode(Integer ...integers) {
@@ -39,11 +56,12 @@ public class AddTwoNumbers {
     /**
       Definition for singly-linked list.
      */
+    @Data
     static class ListNode {
-          int value;
-          ListNode next;
-          ListNode() {}
-          ListNode(int val) { this.value = val; }
-          ListNode(int val, ListNode next) { this.value = val; this.next = next; }
+
+        int value;
+
+        ListNode next;
+
      }
 }
